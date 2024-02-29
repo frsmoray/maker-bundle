@@ -23,6 +23,7 @@ final class ClassProperty
 {
     public function __construct(
         public string $propertyName,
+        public ?string $name = null,
         public string $type,
         public array $comments = [],
         public ?int $length = null,
@@ -34,6 +35,7 @@ final class ClassProperty
         public bool $needsTypeHint = true,
         public bool $unique = false,
     ) {
+        $this->name = $name ?? $propertyName;
     }
 
     public function getAttributes(): array
@@ -52,7 +54,7 @@ final class ClassProperty
             $attributes['unique'] = true;
         }
 
-        foreach (['length', 'id', 'nullable', 'precision', 'scale'] as $property) {
+        foreach (['length', 'id', 'nullable', 'precision', 'scale', 'name'] as $property) {
             if (null !== $this->$property) {
                 $attributes[$property] = $this->$property;
             }
